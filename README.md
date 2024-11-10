@@ -38,5 +38,5 @@ To install **TomatoLeafCare**, follow these steps:
 ## Contact
 If you have any questions or suggestions, please contact:
 
-**Name** : Ibnu Naz'm Ar-rosyid
-**Email** : ibnunazm.a11@gmail.com
+**Name** : Ibnu Naz'm Ar-rosyid   
+**Email** : ibnunazm.a11@gmail.com 
