@@ -1,0 +1,126 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/cream_background"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
+
+            <!-- Logo di kiri -->
+            <ImageView
+                android:id="@+id/logoImage"
+                android:layout_width="210dp"
+                android:layout_height="54dp"
+                android:src="@drawable/tomatoleafcare"
+                android:contentDescription="@string/logotomatoleafcare"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <!-- Tombol back di kanan atas -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_close"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/green_primary" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/detailDiseaseImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/disease_image"
+            app:shapeAppearanceOverlay="@style/CornerImageStyle" />
+
+        <TextView
+            android:id="@+id/detailDiseaseName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nama_penyakit"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:textAlignment="center"
+            android:textColor="@color/green_primary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/penyebab"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/green_primary"
+            android:paddingTop="12dp" />
+
+        <TextView
+            android:id="@+id/detailDiseaseCauses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/penyebab"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gejala"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/green_primary"
+            android:paddingTop="12dp" />
+
+        <TextView
+            android:id="@+id/detailDiseaseSymptoms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/gejala" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dampak"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/green_primary"
+            android:paddingTop="12dp" />
+
+        <TextView
+            android:id="@+id/detailDiseaseImpact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/dampak" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/solusi"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/green_primary"
+            android:paddingTop="12dp" />
+
+        <TextView
+            android:id="@+id/detailDiseaseSolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/solusi" />
+
+    </LinearLayout>
+</ScrollView>

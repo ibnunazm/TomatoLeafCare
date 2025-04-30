@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFDEB">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Logo dan nama aplikasi -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:layout_marginBottom="8dp">
+
+            <!-- Logo di kiri -->
+            <ImageView
+                android:id="@+id/logoImage"
+                android:layout_width="210dp"
+                android:layout_height="54dp"
+                android:src="@drawable/tomatoleafcare"
+                android:contentDescription="@string/logo"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <!-- LED Indikator di kanan -->
+            <LinearLayout
+                android:id="@+id/statusLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true">
+
+                <!-- LED -->
+                <View
+                    android:id="@+id/ledStatus"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_led_offline"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp" />
+
+                <!-- Teks mode -->
+                <TextView
+                    android:id="@+id/textStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/offline"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <!-- Judul -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/judul"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#3C553E"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Kotak Gambar Placeholder -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="#D1D1D1">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/placeholder"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/placeholder_gambar" />
+        </FrameLayout>
+
+
+        <!-- Penjelasan -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/penjelasan"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            android:textColor="#3C3C3C"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Tombol Kamera & Galeri -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnKamera"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/kamera"
+                android:layout_marginEnd="8dp"
+                app:icon="@drawable/ic_camera"
+                app:iconPadding="8dp"
+                app:iconGravity="textStart"
+                app:iconTint="@color/black"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/light_green"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGaleri"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/galeri"
+                android:layout_marginEnd="8dp"
+                app:icon="@drawable/ic_galeri"
+                app:iconPadding="8dp"
+                app:iconGravity="textStart"
+                app:iconTint="@color/black"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/light_green"/>
+        </LinearLayout>
+
+        <!-- Tombol Pindai -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPindai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pindai"
+            android:layout_marginEnd="8dp"
+            app:icon="@drawable/ic_pindai"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart"
+            app:iconTint="@color/black"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/light_green"/>
+    </LinearLayout>
+</ScrollView>

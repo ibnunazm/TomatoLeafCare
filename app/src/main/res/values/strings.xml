@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Tomato Leaf Care</string>
+    <string name="placeholder_gambar">Placeholder gambar</string>
+    <string name="penjelasan">Pastikan foto yang anda kirimkan memiliki kualitas yang cukup jelas dan hindari foto yang buram, terpotong atau terlalu gelap sehingga sulit untuk mengidentifikasi penyakit daun dengan jelas.</string>
+    <string name="kamera">Kamera</string>
+    <string name="galeri">Galeri</string>
+    <string name="logo">Logo</string>
+    <string name="judul">Masukkan gambar penyakit daun\nyang ingin dideteksi</string>
+    <string name="pindai">Pindai</string>
+    <string name="logotomatoleafcare">LogoTomatoLeafCare</string>
+    <string name="disease_image">Disease Image</string>
+    <string name="nama_penyakit">Nama Penyakit</string>
+    <string name="penyebab">Penyebab</string>
+    <string name="gejala">Gejala</string>
+    <string name="dampak">Dampak</string>
+    <string name="solusi">Solusi</string>
+    <string name="gambar_penyakit_daun">gambar penyakit daun</string>
+    <string name="deskripsi_singkat_penyakit">Deskripsi singkat penyakit</string>
+    <string name="gambar_riwayat_penyakit">Gambar riwayat penyakit</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="hapus_riwayat">Hapus riwayat</string>
+    <string name="tanam_rawat_nikmati">🌱 Tanam, Rawat, Nikmati! 🍅</string>
+    <string name="quotes">Rawat tanaman tomatmu dan panen hasil terbaik!</string>
+    <string name="jenis_penyakit_daun_tomat">Jenis Penyakit Daun Tomat</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
+</resources>
