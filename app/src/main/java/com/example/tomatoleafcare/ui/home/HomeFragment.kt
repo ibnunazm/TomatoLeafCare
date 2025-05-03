@@ -24,13 +24,13 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
 
-        val diseaseList = DiseaseRepository.diseaseList
+        val classList = DiseaseRepository.classList.filter { it.name != "Tanaman Sehat" }
 
         // Setup RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = DiseaseAdapter(diseaseList, object : DiseaseAdapter.OnItemClickListener {
+        adapter = DiseaseAdapter(classList, object : DiseaseAdapter.OnItemClickListener {
             override fun onItemClick(disease: Disease) {
                 val detailFragment = DiseaseDetailFragment().apply {
                     arguments = Bundle().apply {

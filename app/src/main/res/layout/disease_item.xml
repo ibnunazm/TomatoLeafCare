@@ -13,7 +13,6 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <!-- Gambar dummy di sebelah kiri -->
         <ImageView
             android:id="@+id/diseaseImage"
             android:layout_width="100dp"
@@ -23,7 +22,6 @@
             android:src="@drawable/placeholder"
             android:contentDescription="@string/gambar_penyakit_daun"/>
 
-        <!-- Text nama penyakit dan deskripsi -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

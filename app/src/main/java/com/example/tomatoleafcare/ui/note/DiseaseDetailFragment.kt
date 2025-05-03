@@ -62,7 +62,6 @@ class DiseaseDetailFragment : Fragment() {
             }
         })
 
-        // Tombol back untuk kembali ke fragment sebelumnya
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }

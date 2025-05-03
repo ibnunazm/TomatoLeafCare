@@ -4,7 +4,7 @@ import com.example.tomatoleafcare.R
 import com.example.tomatoleafcare.model.Disease
 
 object DiseaseRepository {
-    val diseaseList = listOf(
+    val classList = listOf(
         Disease(
             "Bercak Daun Septoria",
             "Menyebabkan bercak coklat pada daun, pencegahan dengan fungisida dan sirkulasi udara yang baik.",
@@ -58,30 +58,39 @@ object DiseaseRepository {
             "Merusak jaringan daun, Menghambat fotositesis dan Menurunkan kualitas buah,",
             "Gunakan benih sehat, jaga sanitasi, dan gunakan bakterisida.",
             R.drawable.bercakbakteri
+        ),
+        Disease(
+            "Tanaman Sehat",
+            "Tidak ditemukan penyakit pada daun ini.",
+            "-",
+            "-",
+            "-",
+            "-",
+            R.drawable.sehat
         )
+
     )
 
     fun getData(): List<Disease> {
-        return diseaseList
+        return classList
     }
 
     fun findDiseaseByName(name: String): Disease? {
-        return diseaseList.find { it.name.equals(name, ignoreCase = true) }
+        return classList.find { it.name.equals(name, ignoreCase = true) }
     }
-
 
 }
 
 object DiseaseMatcher {
     fun matchDisease(className: String): Disease? {
         return when (className) {
-            "bacterial_spot" -> DiseaseRepository.diseaseList.find { it.name.contains("Bercak Bakteri", ignoreCase = true) }
-            "healthy" -> Disease("Tanaman Sehat", "Tidak ditemukan penyakit pada daun ini.", "", "", "", "", 0)
-            "late_blight" -> DiseaseRepository.diseaseList.find { it.name.contains("Hawar Daun", ignoreCase = true) }
-            "leaf_curl_virus" -> DiseaseRepository.diseaseList.find { it.name.contains("Virus Keriting Daun", ignoreCase = true) }
-            "leaf_mold" -> DiseaseRepository.diseaseList.find { it.name.contains("Jamur Daun", ignoreCase = true) }
-            "mosaic_virus" -> DiseaseRepository.diseaseList.find { it.name.contains("Virus Mozaik", ignoreCase = true) }
-            "septoria_leaf_spot" -> DiseaseRepository.diseaseList.find { it.name.contains("Bercak Daun Septoria", ignoreCase = true) }
+            "bacterial_spot" -> DiseaseRepository.classList.find { it.name.contains("Bercak Bakteri", ignoreCase = true) }
+            "healthy" -> DiseaseRepository.classList.find { it.name.contains("Tanaman Sehat", ignoreCase = true) }
+            "late_blight" -> DiseaseRepository.classList.find { it.name.contains("Hawar Daun", ignoreCase = true) }
+            "leaf_curl_virus" -> DiseaseRepository.classList.find { it.name.contains("Virus Keriting Daun", ignoreCase = true) }
+            "leaf_mold" -> DiseaseRepository.classList.find { it.name.contains("Jamur Daun", ignoreCase = true) }
+            "mosaic_virus" -> DiseaseRepository.classList.find { it.name.contains("Virus Mozaik", ignoreCase = true) }
+            "septoria_leaf_spot" -> DiseaseRepository.classList.find { it.name.contains("Bercak Daun Septoria", ignoreCase = true) }
             else -> null
         }
     }

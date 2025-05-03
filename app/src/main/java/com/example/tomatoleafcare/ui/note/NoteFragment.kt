@@ -27,12 +27,12 @@ class NoteFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.note_fragment, container, false)
 
-        val diseaseList = DiseaseRepository.diseaseList
+        val classList = DiseaseRepository.classList.filter { it.name != "Tanaman Sehat" }
 
         recyclerView = view.findViewById(R.id.recyclerViewNote)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = DiseaseAdapter(diseaseList, object : DiseaseAdapter.OnItemClickListener {
+        adapter = DiseaseAdapter(classList, object : DiseaseAdapter.OnItemClickListener {
             override fun onItemClick(disease: Disease) {
                 viewModel.loadDiseaseByName(disease.name)
 

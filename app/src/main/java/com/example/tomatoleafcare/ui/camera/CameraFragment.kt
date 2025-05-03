@@ -36,7 +36,8 @@ import java.util.Locale
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
-
+import android.util.Base64
+import android.util.Log
 
 class CameraFragment : Fragment() {
 
@@ -60,6 +61,9 @@ class CameraFragment : Fragment() {
     )
 
     private var apiAvailable = false
+
+    val credentials = "rahasia:tomat"
+    val basicAuth = "Basic " + Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -145,8 +149,9 @@ class CameraFragment : Fragment() {
 
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("http://robotika.upnvj.ac.id:8000/api/classify")
+            .url("http://robotika.upnvj.ac.id:8000/tomatoleafcare/classify")
             .post(requestBodyMultipart)
+            .addHeader("Authorization", basicAuth)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -302,14 +307,16 @@ class CameraFragment : Fragment() {
     private fun checkApiAvailability() {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("http://robotika.upnvj.ac.id:8000/api/check")
+            .url("http://robotika.upnvj.ac.id:8000/tomatoleafcare/check")
             .get()
+            .addHeader("Authorization", basicAuth)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 apiAvailable = false
                 updateApiStatus()
+                Log.e("API_RESPONSE", "Request failed: ${e.message}")
             }
 
             override fun onResponse(call: Call, response: Response) {

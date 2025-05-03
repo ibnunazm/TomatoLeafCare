@@ -2,6 +2,6 @@
 <resources>
     <style name="CornerImageStyle">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item> <!-- Ganti sesuai kebutuhan -->
+        <item name="cornerSize">16dp</item>
     </style>
 </resources>

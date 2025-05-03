@@ -14,7 +14,6 @@
 
         android:gravity="center_vertical">
 
-        <!-- Gambar -->
         <ImageView
             android:id="@+id/imageHistory"
             android:layout_width="80dp"
@@ -24,7 +23,6 @@
             android:src="@drawable/placeholder"
             android:contentDescription="@string/gambar_riwayat_penyakit" />
 
-        <!-- Konten tengah: Nama dan tanggal -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

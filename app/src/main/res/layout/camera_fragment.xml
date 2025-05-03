@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Logo dan nama aplikasi -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,7 +19,6 @@
             android:paddingStart="8dp"
             android:layout_marginBottom="8dp">
 
-            <!-- Logo di kiri -->
             <ImageView
                 android:id="@+id/logoImage"
                 android:layout_width="210dp"
@@ -30,7 +28,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"/>
 
-            <!-- LED Indikator di kanan -->
             <LinearLayout
                 android:id="@+id/statusLayout"
                 android:layout_width="wrap_content"
@@ -40,7 +37,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true">
 
-                <!-- LED -->
                 <View
                     android:id="@+id/ledStatus"
                     android:layout_width="12dp"
@@ -51,7 +47,6 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp" />
 
-                <!-- Teks mode -->
                 <TextView
                     android:id="@+id/textStatus"
                     android:layout_width="wrap_content"
@@ -66,8 +61,6 @@
 
         </RelativeLayout>
 
-
-        <!-- Judul -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +72,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp" />
 
-        <!-- Kotak Gambar Placeholder -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
@@ -97,8 +89,6 @@
                 android:contentDescription="@string/placeholder_gambar" />
         </FrameLayout>
 
-
-        <!-- Penjelasan -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +98,6 @@
             android:textColor="#3C3C3C"
             android:layout_marginBottom="16dp" />
 
-        <!-- Tombol Kamera & Galeri -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,7 +135,6 @@
                 app:backgroundTint="@color/light_green"/>
         </LinearLayout>
 
-        <!-- Tombol Pindai -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPindai"
             android:layout_width="match_parent"
