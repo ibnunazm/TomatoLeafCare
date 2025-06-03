@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.tomatoleafcare.R
 import com.example.tomatoleafcare.repository.DiseaseRepository
 import com.example.tomatoleafcare.model.History
+import com.example.tomatoleafcare.ui.home.MainActivity
 import com.squareup.picasso.Picasso
 
 class HistoryDetailFragment : Fragment() {
@@ -22,12 +23,15 @@ class HistoryDetailFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.history_detail_fragment, container, false)
 
+        (activity as? MainActivity)?.showBottomNav(false)
+
         val btnBack = view.findViewById<ImageView>(R.id.btnBack)
         btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        history = arguments?.getSerializable("history") as? History
+        history = arguments?.getParcelable<History>("history") as? History
+
 
         history?.let {
             showDetails(view, it)
@@ -61,4 +65,9 @@ class HistoryDetailFragment : Fragment() {
             detailDiseaseSolution.text = "-"
         }
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as? MainActivity)?.showBottomNav(true)
+    }
+
 }

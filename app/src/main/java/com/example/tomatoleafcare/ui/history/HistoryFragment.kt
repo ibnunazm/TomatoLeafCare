@@ -33,7 +33,7 @@ class HistoryFragment : Fragment() {
             historyList = listOf(),
             onItemClick = { history ->
                 val bundle = Bundle()
-                bundle.putSerializable("history", history)
+                bundle.putParcelable("history", history)
 
                 val detailFragment = HistoryDetailFragment().apply {
                     arguments = bundle

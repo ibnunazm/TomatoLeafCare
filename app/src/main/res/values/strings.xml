@@ -20,8 +20,13 @@
     <string name="tanggal">Tanggal</string>
     <string name="hapus_riwayat">Hapus riwayat</string>
     <string name="tanam_rawat_nikmati">🌱 Tanam, Rawat, Nikmati! 🍅</string>
+    <string name="tanam_rawat_panen">🌱 Tanam, Rawat, Panen! 🍅</string>
     <string name="quotes">Rawat tanaman tomatmu dan panen hasil terbaik!</string>
     <string name="jenis_penyakit_daun_tomat">Jenis Penyakit Daun Tomat</string>
     <string name="online">Online</string>
     <string name="offline">Offline</string>
+    <string name="kembali">backbutton</string>
+    <string name="gambar_tomat">gambar-tomat</string>
+    <string name="lihat_lebih_banyak">Lihat lebih banyak</string>
+    <string name="selengkapnya">selengkapnya</string>
 </resources>

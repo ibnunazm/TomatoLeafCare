@@ -1,6 +1,7 @@
 package com.example.tomatoleafcare.ui.home
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.tomatoleafcare.R
@@ -33,6 +34,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+    fun showBottomNav(show: Boolean) {
+        val bottomNav = findViewById<View>(R.id.bottomNavigationView)
+        bottomNav.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()

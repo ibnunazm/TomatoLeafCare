@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Izin untuk menggunakan kamera -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -10,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA"/>
 
-    <!-- Izin untuk menyimpan gambar (Opsional, jika menyimpan foto) -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,9 +37,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- SplashActivity sebagai layar awal -->
         <activity
             android:name=".ui.splash.SplashActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.TomatoLeafCare.Splash">
             <intent-filter>
@@ -50,7 +48,6 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity sebagai layar utama -->
         <activity
             android:name=".ui.home.MainActivity"
             android:screenOrientation="portrait"

@@ -7,11 +7,9 @@
     android:background="@color/cream_background"
     android:padding="16dp">
 
-    <!-- HEADER (tidak bisa discroll) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/logoImage"
@@ -25,9 +23,10 @@
 
         <ImageButton
             android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_close"
+            android:contentDescription="@string/kembali"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,81 +48,108 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/detailDiseaseImage"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_height="300dp"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/disease_image"
                 app:shapeAppearanceOverlay="@style/CornerImageStyle" />
 
-            <TextView
-                android:id="@+id/detailDiseaseName"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/nama_penyakit"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:paddingTop="16dp"
-                android:textAlignment="center"
-                android:textColor="@color/green_primary" />
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:strokeColor="@color/green_primary"
+                app:strokeWidth="1dp"
+                android:backgroundTint="@android:color/white">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/penyebab"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/green_primary"
-                android:paddingTop="12dp" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
 
-            <TextView
-                android:id="@+id/detailDiseaseCauses"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/detailDiseaseName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nama_penyakit"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:textColor="@color/green_primary" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/gejala"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/green_primary"
-                android:paddingTop="12dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/penyebab"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/green_primary"
+                        android:paddingTop="12dp" />
 
-            <TextView
-                android:id="@+id/detailDiseaseSymptoms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/detailDiseaseCauses"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/penyebab"
+                        android:justificationMode="inter_word"
+                        android:textColor="@color/black" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/dampak"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/green_primary"
-                android:paddingTop="12dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gejala"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/green_primary"
+                        android:paddingTop="12dp" />
 
-            <TextView
-                android:id="@+id/detailDiseaseImpact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/detailDiseaseSymptoms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:justificationMode="inter_word"
+                        android:textColor="@color/black"
+                        android:text="@string/gejala" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/solusi"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/green_primary"
-                android:paddingTop="12dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dampak"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/green_primary"
+                        android:paddingTop="12dp" />
 
-            <TextView
-                android:id="@+id/detailDiseaseSolution"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/detailDiseaseImpact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:justificationMode="inter_word"
+                        android:textColor="@color/black"
+                        android:text="@string/dampak" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/solusi"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/green_primary"
+                        android:paddingTop="12dp" />
+
+                    <TextView
+                        android:id="@+id/detailDiseaseSolution"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:justificationMode="inter_word"
+                        android:textColor="@color/black"
+                        android:text="@string/solusi" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
 
         </LinearLayout>
     </ScrollView>

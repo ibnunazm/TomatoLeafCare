@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.example.tomatoleafcare.ui.home.MainActivity
 import com.example.tomatoleafcare.viewmodel.DiseaseViewModel
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -31,6 +32,7 @@ class DiseaseDetailFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.disease_detail_fragment, container, false)
+        (activity as? MainActivity)?.showBottomNav(false)
 
         imageView = view.findViewById(R.id.detailDiseaseImage)
         nameTextView = view.findViewById(R.id.detailDiseaseName)
@@ -67,5 +69,9 @@ class DiseaseDetailFragment : Fragment() {
         }
 
         return view
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as? MainActivity)?.showBottomNav(true)
     }
 }

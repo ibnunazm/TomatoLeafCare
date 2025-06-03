@@ -2,13 +2,11 @@ package com.example.tomatoleafcare.ui.camera
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
+import android.os.Debug
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +22,7 @@ import com.example.tomatoleafcare.databinding.CameraFragmentBinding
 import com.example.tomatoleafcare.helper.HistoryDatabaseHelper
 import okhttp3.*
 import org.json.JSONObject
-import org.tensorflow.lite.Interpreter
 import java.io.*
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import java.nio.channels.FileChannel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.text.SimpleDateFormat
@@ -38,14 +33,17 @@ import android.os.Looper
 import androidx.core.content.ContextCompat
 import android.util.Base64
 import android.util.Log
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.tensorflow.lite.Interpreter
+import java.nio.MappedByteBuffer
+import kotlin.math.roundToInt
+
 
 class CameraFragment : Fragment() {
 
     private var _binding: CameraFragmentBinding? = null
-//    private val binding get() = _binding!!
 
     private val binding get() = _binding ?: throw IllegalStateException("Binding belum diinisialisasi")
-
 
     private lateinit var imageUri: Uri
     private lateinit var photoFile: File
@@ -61,9 +59,8 @@ class CameraFragment : Fragment() {
     )
 
     private var apiAvailable = false
-
-    val credentials = "rahasia:tomat"
-    val basicAuth = "Basic " + Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
+    private val credentials = "rahasia:tomat"
+    private val basicAuth = "Basic " + Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -97,7 +94,7 @@ class CameraFragment : Fragment() {
         _binding = CameraFragmentBinding.inflate(inflater, container, false)
 
         binding.btnKamera.setOnClickListener {
-            openCamera()
+            requestCameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
         }
 
         binding.btnGaleri.setOnClickListener {
@@ -109,7 +106,7 @@ class CameraFragment : Fragment() {
                 if (apiAvailable) {
                     sendImageToApi(imageUri)
                 } else {
-                    runLocalModel(imageUri)
+                    runLocalModel(imageUri, requireContext())
                 }
             } else {
                 Toast.makeText(requireContext(), "Silakan pilih gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
@@ -134,12 +131,72 @@ class CameraFragment : Fragment() {
         }
     }
 
+
+    private val requestCameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            openCamera()
+        } else {
+            Toast.makeText(requireContext(), "Izin kamera diperlukan untuk fitur ini", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun runLocalModel(uri: Uri, context: Context) {
+        val startTime = System.currentTimeMillis()
+        val beforeMemory = Debug.getNativeHeapAllocatedSize() / 1024.0
+
+        val model = Interpreter(loadModelFile("ResNet-50_tomato-leaf-disease.tflite", context))
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+        val resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
+
+        val input = Array(1) { Array(224) { Array(224) { FloatArray(3) } } }
+        for (y in 0 until 224) {
+            for (x in 0 until 224) {
+                val pixel = resizedBitmap.getPixel(x, y)
+                input[0][y][x][0] = Color.red(pixel).toFloat()
+                input[0][y][x][1] = Color.green(pixel).toFloat()
+                input[0][y][x][2] = Color.blue(pixel).toFloat()
+            }
+        }
+
+        val output = Array(1) { FloatArray(classLabels.size) }
+        model.run(input, output)
+
+        val probabilities = output[0]
+        val predictedIndex = probabilities.indices.maxByOrNull { probabilities[it] } ?: -1
+        val prediction = classLabels[predictedIndex]
+
+        val endTime = System.currentTimeMillis()
+        val afterMemory = Debug.getNativeHeapAllocatedSize() / 1024.0
+        val duration = endTime - startTime
+        val memoryUsed = (afterMemory - beforeMemory).roundToInt()
+
+//        Toast.makeText(context, "Local: $prediction\nTime: $duration ms\nMemory: $memoryUsed KB", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Local: $prediction", Toast.LENGTH_LONG).show()
+        Log.d("MODEL_METRICS", "Local - Time: $duration ms, Memory: $memoryUsed KB")
+
+        navigateToNoteFragment(prediction, uri)
+    }
+
+    private fun loadModelFile(modelName: String, context: Context): MappedByteBuffer {
+        val fileDescriptor = context.assets.openFd(modelName)
+        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
+        val fileChannel = inputStream.channel
+        val startOffset = fileDescriptor.startOffset
+        val declaredLength = fileDescriptor.declaredLength
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+    }
+
     private fun sendImageToApi(uri: Uri) {
+        val startTime = System.currentTimeMillis()
+        val beforeMemory = Debug.getNativeHeapAllocatedSize() / 1024.0
+
         val contentResolver = requireContext().contentResolver
         val inputStream = contentResolver.openInputStream(uri) ?: return
-
         val imageBytes = inputStream.readBytes()
-        val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageBytes)
+        val requestBody = imageBytes.toRequestBody("image/*".toMediaTypeOrNull(), 0)
         val body = MultipartBody.Part.createFormData("image", "image.jpg", requestBody)
 
         val requestBodyMultipart = MultipartBody.Builder()
@@ -175,8 +232,15 @@ class CameraFragment : Fragment() {
                     val predictedClassObj = jsonObject.getJSONObject("predictedClass")
                     val prediction = predictedClassObj.getString("class")
 
+                    val endTime = System.currentTimeMillis()
+                    val duration = endTime - startTime
+                    val afterMemory = Debug.getNativeHeapAllocatedSize() / 1024.0
+                    val memoryUsed = (afterMemory - beforeMemory).roundToInt()
+
                     requireActivity().runOnUiThread {
+//                        Toast.makeText(requireContext(), "Online: $prediction\nTime: $duration ms\nMemory: $memoryUsed KB", Toast.LENGTH_LONG).show()
                         Toast.makeText(requireContext(), "Online: $prediction", Toast.LENGTH_LONG).show()
+                        Log.d("MODEL_METRICS", "Online - Time: $duration ms, Memory: $memoryUsed KB")
                         navigateToNoteFragment(prediction, uri)
                     }
 
@@ -186,112 +250,8 @@ class CameraFragment : Fragment() {
                     }
                 }
             }
+
         })
-    }
-
-    private fun runLocalModel(uri: Uri) {
-        try {
-            val bitmap = getBitmapFromUri(uri)
-            val resized = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
-            val input = convertBitmapToByteBuffer(resized)
-
-            val modelBuffer = loadModelFile("ResNet-50_tomato-leaf-disease.tflite")
-            val interpreter = Interpreter(modelBuffer)
-
-            val output = Array(1) { FloatArray(classLabels.size) }
-            interpreter.run(input, output)
-
-            val resultIndex = output[0].indices.maxByOrNull { output[0][it] } ?: -1
-            val confidence = output[0][resultIndex]
-            val className = classLabels.getOrNull(resultIndex) ?: "Tidak diketahui"
-
-            requireActivity().runOnUiThread {
-                Toast.makeText(requireContext(), "Lokal: $className", Toast.LENGTH_LONG).show()
-                navigateToNoteFragment(className, uri)
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            requireActivity().runOnUiThread {
-                Toast.makeText(requireContext(), "Gagal menjalankan model lokal", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun getBitmapFromUri(uri: Uri): Bitmap {
-        return if (Build.VERSION.SDK_INT < 28) {
-            MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
-        } else {
-            val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
-            ImageDecoder.decodeBitmap(source)
-        }
-    }
-
-    private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
-        val inputSize = 224
-        val byteBuffer = ByteBuffer.allocateDirect(4 * inputSize * inputSize * 3)
-        byteBuffer.order(ByteOrder.nativeOrder())
-
-        val intValues = IntArray(inputSize * inputSize)
-        val resizedBitmap = Bitmap.createScaledBitmap(bitmap, inputSize, inputSize, true)
-        val safeBitmap = resizedBitmap.copy(Bitmap.Config.ARGB_8888, true)
-        safeBitmap.getPixels(intValues, 0, inputSize, 0, 0, inputSize, inputSize)
-
-        for (pixel in intValues) {
-            val r = ((pixel shr 16) and 0xFF).toFloat() / 255.0f
-            val g = ((pixel shr 8) and 0xFF).toFloat() / 255.0f
-            val b = (pixel and 0xFF).toFloat() / 255.0f
-
-            byteBuffer.putFloat(r)
-            byteBuffer.putFloat(g)
-            byteBuffer.putFloat(b)
-        }
-
-        return byteBuffer
-    }
-
-    private fun loadModelFile(modelName: String): ByteBuffer {
-        val fileDescriptor = requireContext().assets.openFd(modelName)
-        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
-        val fileChannel = inputStream.channel
-        val startOffset = fileDescriptor.startOffset
-        val declaredLength = fileDescriptor.declaredLength
-        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
-    }
-
-    private fun navigateToNoteFragment(className: String, imageUri: Uri) {
-
-        val matchedDisease = DiseaseMatcher.matchDisease(className)
-
-        val dbHelper = HistoryDatabaseHelper(requireContext())
-        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-        val now = formatter.format(Date())
-
-        val historyItem = History(
-            diseaseName = matchedDisease?.name ?: "Unknown",
-            date = now,
-            imagePath = imageUri.toString()
-        )
-        dbHelper.insertHistory(historyItem)
-
-        val bundle = Bundle().apply {
-            putString("disease_name", matchedDisease?.name)
-            putString("disease_description", matchedDisease?.description)
-            putString("disease_symptoms", matchedDisease?.symptoms)
-            putString("disease_causes", matchedDisease?.cause)
-            putString("disease_impact", matchedDisease?.impact)
-            putString("disease_solution", matchedDisease?.solution)
-            putString("image_uri", imageUri.toString())
-        }
-
-        val diseaseDetailFragment = DiseaseDetailFragment().apply {
-            arguments = bundle
-        }
-
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, diseaseDetailFragment)
-            .addToBackStack(null)
-            .commit()
     }
 
     private val handler = Handler(Looper.getMainLooper())
@@ -344,6 +304,40 @@ class CameraFragment : Fragment() {
         }
     }
 
+    private fun navigateToNoteFragment(className: String, imageUri: Uri) {
+
+        val matchedDisease = DiseaseMatcher.matchDisease(className)
+
+        val dbHelper = HistoryDatabaseHelper(requireContext())
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        val now = formatter.format(Date())
+
+        val historyItem = History(
+            diseaseName = matchedDisease?.name ?: "Unknown",
+            date = now,
+            imagePath = imageUri.toString()
+        )
+        dbHelper.insertHistory(historyItem)
+
+        val bundle = Bundle().apply {
+            putString("disease_name", matchedDisease?.name)
+            putString("disease_description", matchedDisease?.description)
+            putString("disease_symptoms", matchedDisease?.symptoms)
+            putString("disease_causes", matchedDisease?.cause)
+            putString("disease_impact", matchedDisease?.impact)
+            putString("disease_solution", matchedDisease?.solution)
+            putString("image_uri", imageUri.toString())
+        }
+
+        val diseaseDetailFragment = DiseaseDetailFragment().apply {
+            arguments = bundle
+        }
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, diseaseDetailFragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
 
     override fun onDestroyView() {

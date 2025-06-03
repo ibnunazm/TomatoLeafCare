@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="@color/yellow_accent"
+    android:layout_margin="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp"
+            android:padding="20dp"
+            android:text="@string/tanam_rawat_nikmati"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textSubtitle"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/textTitle"
+            android:layout_alignStart="@id/textTitle"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="-4dp"
+            android:padding="20dp"
+            android:text="@string/quotes"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/imageTomato"
+            android:layout_width="148dp"
+            android:layout_height="120dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:contentDescription="@string/gambar_tomat"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tomato" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

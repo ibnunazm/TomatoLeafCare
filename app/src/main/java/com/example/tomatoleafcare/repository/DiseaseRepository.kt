@@ -62,10 +62,10 @@ object DiseaseRepository {
         Disease(
             "Tanaman Sehat",
             "Tidak ditemukan penyakit pada daun ini.",
-            "-",
-            "-",
-            "-",
-            "-",
+            "tidak ada",
+            "tidak ada",
+            "tidak ada",
+            "tidak ada",
             R.drawable.sehat
         )
 
