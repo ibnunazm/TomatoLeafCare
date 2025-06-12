@@ -2,6 +2,8 @@
 
 This application is designed to detect diseases on tomato leaves using a CNN machine learning model with ResNet-50 architecture, specifically for Android devices.
 
+link download: https://drive.google.com/file/d/1VW9FWzEWZef0acX_6YHbL8CQunueDEvt/view?usp=drive_link
+
 ## Table of Contents
 - [About the Project](#about-the-project)
 - [Features](#features)
